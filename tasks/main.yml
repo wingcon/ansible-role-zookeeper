@@ -1,0 +1,73 @@
+---
+- name: Create zookeeper user and group
+  include_role:
+    name: users
+  vars:
+    users:
+      - username: zoo
+        name: zoo
+        home: /opt/zookeeper
+        shell: /usr/sbin/nologin
+        is_system_user: true
+    groups_to_create:
+      - name: zoo
+
+- name: Change /opt/zookeeper ownership, group and permissions
+  file:
+    path: /opt/zookeeper
+    owner: zoo
+    group: zoo
+    mode: '0755'
+    state: directory
+    recurse: yes
+
+- name: Change /wsp_var/log/zookeeper ownership, group and permissions
+  file:
+    path: /wsp_var/log/zookeeper
+    owner: zoo
+    group: zoo
+    mode: '0744'
+    state: directory
+    recurse: yes
+
+- name: Change data_dir ownership, group and permissions
+  file:
+    path: "{{ zookeeper_data_dir }}"
+    owner: zoo
+    group: zoo
+    mode: '0740'
+    state: directory
+    recurse: yes
+
+- name: Configure logger settings
+  lineinfile:
+    dest: "{{ zookeeper_log_config_dir }}log4j.properties"
+    regexp: "^#?{{ item.option }}\\s*=.+$"
+    line: "{{ item.option }}={{ item.value }}"
+    state: "{{ item.state | default('present') }}"
+  with_items: "{{ zookeeper_logger_config_options }}"
+  notify: restart zookeeper
+
+- name: Configure myid file
+  copy:
+    content: '{{ ansible_loop.index }}'
+    dest: "{{ zookeeper_config_dir }}/myid"
+  when: item.host == ansible_hostname or item.host in ansible_all_ipv4_addresses or item.host == 'localhost'
+  loop: "{{ zookeeper_servers }}"
+  loop_control:
+    extended: yes
+  notify:
+    - reset zookeeper data
+    - restart zookeeper
+
+- name: write zookeeper config
+  template:
+    src: templates/zoo.cfg.j2
+    dest: "{{ zookeeper_config_dir }}zoo.cfg"
+    mode: '0444'
+  notify: restart zookeeper
+
+- name: enable zookeeper service
+  service:
+    name: "zookeeper"
+    enabled: "yes"

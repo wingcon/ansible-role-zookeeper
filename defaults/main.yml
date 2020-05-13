@@ -1,0 +1,15 @@
+---
+zookeeper_logger_config_options: 
+  - option: log4j.appender.ROLLINGFILE.MaxFileSize
+    value: 25MB
+  - option: log4j.appender.ROLLINGFILE.MaxBackupIndex
+    value: 25
+
+zookeeper_config_dir: "/opt/zookeeper/"
+zookeeper_log_config_dir: "/opt/zookeeper/conf/"
+zookeeper_data_dir: "/var/zookeeper/"
+
+zookeeper_servers:
+  - host: localhost
+    service_port_a: 2888
+    service_port_b: 3888

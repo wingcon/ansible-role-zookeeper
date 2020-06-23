@@ -1,4 +1,6 @@
 ---
+zookeeper_enabled: True
+
 zookeeper_logger_config_options: 
   - option: log4j.appender.ROLLINGFILE.MaxFileSize
     value: 25MB

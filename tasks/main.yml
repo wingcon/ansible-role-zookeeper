@@ -70,4 +70,5 @@
 - name: enable zookeeper service
   service:
     name: "zookeeper"
-    enabled: "yes"
+    state: "{{ zookeeper_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ zookeeper_enabled }}"

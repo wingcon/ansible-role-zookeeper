@@ -68,7 +68,8 @@
   notify: restart zookeeper
 
 - name: enable zookeeper service
-  service:
+  systemd:
     name: "zookeeper"
     state: "{{ zookeeper_enabled | ternary('started', 'stopped') }}"
     enabled: "{{ zookeeper_enabled }}"
+    daemon_reload: yes

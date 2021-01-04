@@ -31,6 +31,8 @@ autopurge.snapRetainCount={{ zookeeper_snap_retain | default(3) }}
 # Purge task interval in hours
 # Set to "0" to disable auto purge feature
 autopurge.purgeInterval={{ zookeeper_purge_interval | default(3) }}
+# allowed 4letter words
+4lw.commands.whitelist={{ zookeeper_allowed_4lw | default('srvr') }}
 # The server setup follows
 {% for server in zookeeper_servers %}
 server.{{ loop.index }}={{ server.host }}:{{ server.service_port_a }}:{{ server.service_port_b }}

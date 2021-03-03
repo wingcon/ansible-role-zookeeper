@@ -11,6 +11,10 @@ zookeeper_config_dir: "/opt/zookeeper/"
 zookeeper_log_config_dir: "/opt/zookeeper/conf/"
 zookeeper_data_dir: "/var/zookeeper/"
 
+zookeeper_client_port: 2181
+zookeeper_default_service_port_a: 2888
+zookeeper_default_service_port_b: 3888
+
 zookeeper_servers:
   - host: localhost
     service_port_a: 2888

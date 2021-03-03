@@ -35,5 +35,5 @@ autopurge.purgeInterval={{ zookeeper_purge_interval | default(3) }}
 4lw.commands.whitelist={{ zookeeper_allowed_4lw | default('srvr') }}
 # The server setup follows
 {% for server in zookeeper_servers %}
-server.{{ loop.index }}={{ server.host }}:{{ server.service_port_a }}:{{ server.service_port_b }}
+server.{{ loop.index }}={% if server is mapping %}{{ server.host }}{% else %}{{ server }}{% endif %}:{% if 'service_port_a' in server %}{{ server.service_port_a }}{% else %}{{ zookeeper_default_service_port_a }}{% endif %}:{% if 'service_port_b' in server %}{{ server.service_port_b }}{% else %}{{ zookeeper_default_service_port_b }}{% endif %}
 {% endfor %}

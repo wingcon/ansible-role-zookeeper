@@ -6,24 +6,24 @@
     users:
       - username: zoo
         name: zoo
-        home: /opt/zookeeper
+        home: "{{ zookeeper_bin_dir }}"
         shell: /usr/sbin/nologin
         is_system_user: true
     groups_to_create:
       - name: zoo
 
-- name: Change /opt/zookeeper ownership, group and permissions
+- name: Change zookeeper_bin_dir ownership, group and permissions
   file:
-    path: /opt/zookeeper
+    path: "{{ zookeeper_bin_dir }}"
     owner: zoo
     group: zoo
-    mode: '0755'
+    mode: '0700'
     state: directory
     recurse: yes
 
-- name: Change /wsp_var/log/zookeeper ownership, group and permissions
+- name: Change zookeeper_log_dir ownership, group and permissions
   file:
-    path: /wsp_var/log/zookeeper
+    path: "{{ zookeeper_log_dir }}"
     owner: zoo
     group: zoo
     mode: '0744'

@@ -4,19 +4,19 @@
     name: users
   vars:
     users:
-      - username: zoo
-        name: zoo
-        home: "{{ zookeeper_bin_dir }}"
+      - username: "{{ zookeeper_system_user }}"
+        name: "{{ zookeeper_system_user }}"
+        home: "{{ zookeeper_install_dir }}"
         shell: /usr/sbin/nologin
         is_system_user: true
     groups_to_create:
-      - name: zoo
+      - name: "{{ zookeeper_system_user }}"
 
-- name: Change zookeeper_bin_dir ownership, group and permissions
+- name: Change zookeeper_install_dir ownership, group and permissions
   file:
-    path: "{{ zookeeper_bin_dir }}"
-    owner: zoo
-    group: zoo
+    path: "{{ zookeeper_install_dir }}"
+    owner: "{{ zookeeper_system_user }}"
+    group: "{{ zookeeper_system_user }}"
     mode: '0700'
     state: directory
     recurse: yes
@@ -24,8 +24,8 @@
 - name: Change zookeeper_log_dir ownership, group and permissions
   file:
     path: "{{ zookeeper_log_dir }}"
-    owner: zoo
-    group: zoo
+    owner: "{{ zookeeper_system_user }}"
+    group: "{{ zookeeper_system_user }}"
     mode: '0744'
     state: directory
     recurse: yes
@@ -33,15 +33,15 @@
 - name: Change data_dir ownership, group and permissions
   file:
     path: "{{ zookeeper_data_dir }}"
-    owner: zoo
-    group: zoo
-    mode: '0740'
+    owner: "{{ zookeeper_system_user }}"
+    group: "{{ zookeeper_system_user }}"
+    mode: '0744'
     state: directory
     recurse: yes
 
 - name: Configure logger settings
   lineinfile:
-    dest: "{{ zookeeper_log_config_dir }}log4j.properties"
+    dest: "{{ zookeeper_log_config_dir }}/log4j.properties"
     regexp: "^#?{{ item.option }}\\s*=.+$"
     line: "{{ item.option }}={{ item.value }}"
     state: "{{ item.state | default('present') }}"
@@ -63,13 +63,20 @@
 - name: write zookeeper config
   template:
     src: templates/zoo.cfg.j2
-    dest: "{{ zookeeper_config_dir }}zoo.cfg"
+    dest: "{{ zookeeper_config_dir }}/{{ zookeeper_config_name }}.cfg"
+    mode: '0444'
+  notify: restart zookeeper
+
+- name: write zookeeper service
+  template:
+    src: templates/zookeeper.service.j2
+    dest: "{{ zookeeper_systemd_dir }}/{{ zookeeper_service_name }}.service"
     mode: '0444'
   notify: restart zookeeper
 
 - name: enable zookeeper service
   systemd:
-    name: "zookeeper"
+    name: "{{ zookeeper_service_name }}"
     state: "{{ zookeeper_enabled | ternary('started', 'stopped') }}"
     enabled: "{{ zookeeper_enabled }}"
     daemon_reload: yes

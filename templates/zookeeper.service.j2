@@ -1,0 +1,26 @@
+[Unit]
+Description=Zookeeper service
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=5s
+
+User={{ zookeeper_system_user }}
+Group={{ zookeeper_system_user }}
+
+Environment=ZOO_LOG_DIR={{ zookeeper_log_dir }}
+Environment=ZOO_LOG4J_PROP=INFO,ROLLINGFILE
+
+PIDFile={{ zookeeper_data_dir }}/zookeeper_server.pid
+
+ExecStart={{ zookeeper_start_command }} {{ zookeeper_config_dir }}/{{ zookeeper_config_name }}.cfg
+ExecStartPost=sh -c 'while ! ss -H -t -l -n sport = :2181 | grep -q "^LISTEN.*:2181"; do sleep 1; done'
+ExecStopPost=/bin/sleep 3
+ExecStopPost={{ zookeeper_stop_command }} {{ zookeeper_config_dir }}/{{ zookeeper_config_name }}.cfg
+
+ExecReload={{ zookeeper_restart_command }} {{ zookeeper_config_dir }}/{{ zookeeper_config_name }}.cfg
+StandardOutput=null
+
+[Install]
+WantedBy=wsp_services.target

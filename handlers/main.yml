@@ -1,11 +1,11 @@
 ---
 - name: reset zookeeper data
   file:
-    path: "{{ zookeeper_data_dir }}version-2/"
+    path: "{{ zookeeper_version_data_dir }}"
     state: absent
 
 - name: restart zookeeper
   service:
-    name: "zookeeper"
+    name: "{{zookeeper_service_name}}"
     state: "restarted"
     sleep: 5

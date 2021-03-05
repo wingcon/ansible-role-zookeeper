@@ -7,11 +7,14 @@ zookeeper_logger_config_options:
   - option: log4j.appender.ROLLINGFILE.MaxBackupIndex
     value: 25
 
-zookeeper_config_dir: "/opt/zookeeper/"
-zookeeper_log_config_dir: "/opt/zookeeper/conf/"
-zookeeper_data_dir: "/var/zookeeper/"
-zookeeper_bin_dir: "/opt/zookeeper/"
+zookeeper_config_dir: "/opt/zookeeper"
+zookeeper_log_config_dir: "/opt/zookeeper/conf"
+zookeeper_data_dir: "/var/zookeeper"
+zookeeper_install_dir: "/opt/zookeeper"
 zookeeper_log_dir: "/var/log/zookeeper"
+
+zookeeper_service_name: zookeeper
+zookeeper_config_name: zoo
 
 zookeeper_client_port: 2181
 zookeeper_default_service_port_a: 2888

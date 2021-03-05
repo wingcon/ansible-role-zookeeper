@@ -1,0 +1,8 @@
+---
+zookeeper_systemd_dir: /lib/systemd/system
+zookeeper_bin_dir: "{{ zookeeper_install_dir }}/bin"
+zookeeper_start_command: "{{ zookeeper_bin_dir }}/zkServer.sh start"
+zookeeper_stop_command: "{{ zookeeper_bin_dir }}/zkServer.sh stop"
+zookeeper_restart_command: "{{ zookeeper_bin_dir }}/zkServer.sh restart"
+zookeeper_version_data_dir: "{{ zookeeper_data_dir }}/version-2"
+zookeeper_system_user: zoo

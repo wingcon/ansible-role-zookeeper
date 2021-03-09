@@ -15,7 +15,7 @@ Environment=ZOO_LOG4J_PROP=INFO,ROLLINGFILE
 PIDFile={{ zookeeper_data_dir }}/zookeeper_server.pid
 
 ExecStart={{ zookeeper_start_command }} {{ zookeeper_config_dir }}/{{ zookeeper_config_name }}.cfg
-ExecStartPost=sh -c 'while ! ss -H -t -l -n sport = :2181 | grep -q "^LISTEN.*:2181"; do sleep 1; done'
+ExecStartPost=sh -c 'while ! ss -H -t -l -n sport = :{{ zookeeper_client_port }} | grep -q "^LISTEN.*:{{ zookeeper_client_port }}"; do sleep 1; done'
 ExecStopPost=/bin/sleep 3
 ExecStopPost={{ zookeeper_stop_command }} {{ zookeeper_config_dir }}/{{ zookeeper_config_name }}.cfg
 

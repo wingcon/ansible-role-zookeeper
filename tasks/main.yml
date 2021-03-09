@@ -52,7 +52,7 @@
   copy:
     content: '{{ ansible_loop.index }}'
     dest: "{{ zookeeper_data_dir }}/myid"
-  when: item.host == ansible_hostname or item.host in ansible_all_ipv4_addresses or item.host == 'localhost'
+  when: item == ansible_hostname or item in ansible_all_ipv4_addresses or item == 'localhost' or item.host == ansible_hostname or item.host in ansible_all_ipv4_addresses or item.host == 'localhost'
   loop: "{{ zookeeper_servers }}"
   loop_control:
     extended: yes

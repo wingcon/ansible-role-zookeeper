@@ -1,6 +1,11 @@
 #
 # Ansible managed
 #
+# Enable/disable the HTTP based command interface
+admin.enableServer={{ zookeeper_admin_server_enabled | default(true) }}
+# Configure the AdminServer port
+admin.serverPort={{ zookeeper_admin_server_port | default(8080) }}
+admin.commandURL={{ zookeeper_admin_server_url | default("/commands") }}
 # The number of milliseconds of each tick
 tickTime={{ zookeeper_tick_time | default(2000) }}
 # The number of ticks that the initial 

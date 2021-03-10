@@ -2,7 +2,7 @@
 # Ansible managed
 #
 # Enable/disable the HTTP based command interface
-admin.enableServer={{ zookeeper_admin_server_enabled | default(true) }}
+admin.enableServer={{ zookeeper_admin_server_enabled | default(True) | ternary('true', 'false') }}
 # Configure the AdminServer port
 admin.serverPort={{ zookeeper_admin_server_port | default(8080) }}
 admin.commandURL={{ zookeeper_admin_server_url | default("/commands") }}

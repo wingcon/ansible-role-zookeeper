@@ -5,6 +5,7 @@ Description=Zookeeper service
 Type=forking
 Restart=always
 RestartSec=5s
+SuccessExitStatus=143
 
 User={{ zookeeper_system_user }}
 Group={{ zookeeper_system_user }}

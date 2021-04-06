@@ -25,4 +25,6 @@ zookeeper_servers:
     service_port_a: 2888
     service_port_b: 3888
 
+zookeeper_groups: "{{ [range(1, 1 + (zookeeper_servers | length)) | list] }}"
+
 zookeeper_allowed_4lw: srvr

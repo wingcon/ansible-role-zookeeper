@@ -42,4 +42,11 @@ autopurge.purgeInterval={{ zookeeper_purge_interval | default(3) }}
 {% for server in zookeeper_servers %}
 server.{{ loop.index }}={% if server is mapping %}{{ server.host }}{% else %}{{ server }}{% endif %}:{% if 'service_port_a' in server %}{{ server.service_port_a }}{% else %}{{ zookeeper_default_service_port_a }}{% endif %}:{% if 'service_port_b' in server %}{{ server.service_port_b }}{% else %}{{ zookeeper_default_service_port_b }}{% endif %}
 
+{% if 'weight' in zookeeper_servers %}weight.{{ loop.index }}={{ server.weight }}
+
+{% endif %}
+{% endfor %}
+{% for group in zookeeper_groups %}
+group.{{ loop.index }}={% for server in group %}{{ server }}{% if not loop.last %}:{% endif %}{% endfor %}
+
 {% endfor %}

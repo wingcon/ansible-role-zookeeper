@@ -68,7 +68,6 @@
     group: "{{ zookeeper_system_user }}"
     mode: '0644'
   notify:
-    - reset zookeeper data
     - restart zookeeper
 
 - name: write zookeeper config

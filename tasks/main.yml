@@ -37,6 +37,14 @@
     group: "{{ zookeeper_system_user }}"
     mode: '0744'
     state: directory
+
+- name: Change version_dir ownership, group and permissions
+  file:
+    path: "{{ zookeeper_version_data_dir }}"
+    owner: "{{ zookeeper_system_user }}"
+    group: "{{ zookeeper_system_user }}"
+    mode: '0744'
+    state: directory
     recurse: yes
 
 - name: Configure logger settings
@@ -64,12 +72,17 @@
   copy:
     content: '{{ own_zookeeper_id }}'
     dest: "{{ zookeeper_data_dir }}/myid"
-    owner: "{{ zookeeper_system_user }}"
-    group: "{{ zookeeper_system_user }}"
-    mode: '0644'
   notify:
     - reset zookeeper data
     - restart zookeeper
+
+# this is done separately form the above step so a permission change will not reset the data dir and not restart the service
+- name: set myid file permission/owner
+  file:
+    path: "{{ zookeeper_data_dir }}/myid"
+    owner: "{{ zookeeper_system_user }}"
+    group: "{{ zookeeper_system_user }}"
+    mode: '0644'
 
 - name: write zookeeper config
   template:

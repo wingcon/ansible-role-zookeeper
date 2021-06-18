@@ -28,3 +28,9 @@ zookeeper_servers:
 zookeeper_groups: "{{ [range(1, 1 + (zookeeper_servers | length)) | list] }}"
 
 zookeeper_allowed_4lw: srvr
+
+# configure jmx prometheus exporter
+zookeeper_jmx_exporter_enabled: False
+zookeeper_jmx_exporter_path: /opt/jmx-exporter/jmx-exporter.jar
+zookeeper_jmx_exporter_port: 6060
+zookeeper_jmx_exporter_config: /opt/jmx-exporter/zookeeper.yml

@@ -31,6 +31,6 @@ zookeeper_allowed_4lw: srvr
 
 # configure jmx prometheus exporter
 zookeeper_jmx_exporter_enabled: False
-zookeeper_jmx_exporter_path: /opt/jmx-exporter/jmx-exporter.jar
+zookeeper_jmx_exporter_path: /opt/jmx_exporter/jmx_exporter.jar
 zookeeper_jmx_exporter_port: 6060
-zookeeper_jmx_exporter_config: /opt/jmx-exporter/zookeeper.yml
+zookeeper_jmx_exporter_config: /opt/jmx_exporter/zookeeper.yml

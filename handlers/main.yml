@@ -5,7 +5,8 @@
     state: absent
 
 - name: restart zookeeper
-  service:
+  systemd:
     name: "{{zookeeper_service_name}}"
-    state: "restarted"
-    sleep: 5
+    state: "{{ zookeeper_enabled | ternary('restarted', 'stopped') }}"
+    enabled: "{{ zookeeper_enabled }}"
+    daemon_reload: yes

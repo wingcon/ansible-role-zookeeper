@@ -1,11 +1,61 @@
 ---
 zookeeper_enabled: True
 
-zookeeper_logger_config_options: 
+zookeeper_logger_config_options: []
+
+zookeeper_logger_config_options_defaults:
+  - option: zookeeper.root.logger
+    value: INFO, CONSOLE
+  - option: zookeeper.console.threshold
+    value: INFO
+  - option: zookeeper.log.dir
+    value: "."
+  - option: zookeeper.log.file
+    value: zookeeper.log
+  - option: zookeeper.log.threshold
+    value: INFO
+  - option: zookeeper.log.maxfilesize
+    value: 256MB
+  - option: zookeeper.log.maxbackupindex
+    value: 20
+  - option: zookeeper.tracelog.dir
+    value: ${zookeeper.log.dir}
+  - option: zookeeper.tracelog.file
+    value: zookeeper_trace.log
+  - option: log4j.rootLogger
+    value: ${zookeeper.root.logger}
+  - option: log4j.appender.CONSOLE
+    value: org.apache.log4j.ConsoleAppender
+  - option: log4j.appender.CONSOLE.Threshold
+    value: ${zookeeper.console.threshold}
+  - option: log4j.appender.CONSOLE.layout
+    value: org.apache.log4j.PatternLayout
+  - option: log4j.appender.CONSOLE.layout.ConversionPattern
+    value: "%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L] - %m%n"
+  - option: log4j.appender.ROLLINGFILE
+    value: org.apache.log4j.RollingFileAppender
+  - option: log4j.appender.ROLLINGFILE.Threshold
+    value: ${zookeeper.log.threshold}
+  - option: log4j.appender.ROLLINGFILE.File
+    value: ${zookeeper.log.dir}/${zookeeper.log.file}
   - option: log4j.appender.ROLLINGFILE.MaxFileSize
-    value: 25MB
+    value: ${zookeeper.log.maxfilesize}
   - option: log4j.appender.ROLLINGFILE.MaxBackupIndex
-    value: 25
+    value: ${zookeeper.log.maxbackupindex}
+  - option: log4j.appender.ROLLINGFILE.layout
+    value: org.apache.log4j.PatternLayout
+  - option: log4j.appender.ROLLINGFILE.layout.ConversionPattern
+    value: "%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L] - %m%n"
+  - option: log4j.appender.TRACEFILE
+    value: org.apache.log4j.FileAppender
+  - option: log4j.appender.TRACEFILE.Threshold
+    value: TRACE
+  - option: log4j.appender.TRACEFILE.File
+    value: ${zookeeper.tracelog.dir}/${zookeeper.tracelog.file}
+  - option: log4j.appender.TRACEFILE.layout
+    value: org.apache.log4j.PatternLayout
+  - option: log4j.appender.TRACEFILE.layout.ConversionPattern
+    value: "%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L][%x] - %m%n"
 
 zookeeper_config_dir: "/opt/zookeeper"
 zookeeper_log_config_dir: "/opt/zookeeper/conf"

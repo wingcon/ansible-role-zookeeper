@@ -48,12 +48,10 @@
     recurse: yes
 
 - name: Configure logger settings
-  lineinfile:
+  template:
+    src: log4j.properties.j2
     dest: "{{ zookeeper_log_config_dir }}/log4j.properties"
-    regexp: "^#?{{ item.option }}\\s*=.+$"
-    line: "{{ item.option }}={{ item.value }}"
-    state: "{{ item.state | default('present') }}"
-  with_items: "{{ zookeeper_logger_config_options }}"
+    mode: '0444'
   notify: restart zookeeper
 
 - name: own service id

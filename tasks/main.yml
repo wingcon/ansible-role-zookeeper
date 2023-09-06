@@ -19,7 +19,7 @@
     group: "{{ zookeeper_system_user }}"
     mode: '0700'
     state: directory
-    recurse: yes
+    recurse: true
 
 - name: Change zookeeper_log_dir ownership, group and permissions
   file:
@@ -28,7 +28,7 @@
     group: "{{ zookeeper_system_user }}"
     mode: '0744'
     state: directory
-    recurse: yes
+    recurse: true
 
 - name: Change data_dir ownership, group and permissions
   file:
@@ -45,7 +45,7 @@
     group: "{{ zookeeper_system_user }}"
     mode: '0700'
     state: directory
-    recurse: yes
+    recurse: true
 
 - name: Configure logger settings
   template:
@@ -60,7 +60,7 @@
   when: ansible_hostname in item or item in ansible_all_ipv4_addresses or item == 'localhost' or 'host' in item and (item.host == ansible_hostname or item.host in ansible_all_ipv4_addresses or item.host == 'localhost')
   loop: "{{ zookeeper_servers }}"
   loop_control:
-    extended: yes
+    extended: true
 
 - name: assert one of given servers matched own host or ip 
   assert:
@@ -101,4 +101,4 @@
     name: "{{ zookeeper_service_name }}"
     state: "{{ zookeeper_enabled | ternary('started', 'stopped') }}"
     enabled: "{{ zookeeper_enabled }}"
-    daemon_reload: yes
+    daemon_reload: true

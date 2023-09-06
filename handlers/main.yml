@@ -9,4 +9,4 @@
     name: "{{zookeeper_service_name}}"
     state: "{{ zookeeper_enabled | ternary('restarted', 'stopped') }}"
     enabled: "{{ zookeeper_enabled }}"
-    daemon_reload: yes
+    daemon_reload: true

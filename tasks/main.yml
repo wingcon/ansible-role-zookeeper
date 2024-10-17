@@ -57,7 +57,7 @@
 - name: own service id
   set_fact:
     own_zookeeper_id: "{{ ansible_loop.index }}"
-  when: ansible_hostname in item or item in ansible_all_ipv4_addresses or item == 'localhost' or 'host' in item and (item.host == ansible_hostname or item.host in ansible_all_ipv4_addresses or item.host == 'localhost')
+  when: ansible_hostname == item or item in ansible_all_ipv4_addresses or item == 'localhost' or 'host' in item and (item.host == ansible_hostname or item.host in ansible_all_ipv4_addresses or item.host == 'localhost')
   loop: "{{ zookeeper_servers }}"
   loop_control:
     extended: true
